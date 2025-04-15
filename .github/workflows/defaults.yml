@@ -1,0 +1,17 @@
+name: Defaults for jobs
+on: [push, workflow_dispatch]
+
+jobs:
+    validate-secret:
+        runs-on: ubuntu-latest
+        env:
+            super_secret: ${{ secrets.Supersecret }}
+        defaults:
+            run:
+                shell: bash
+                working-directory: .
+        steps:
+            - if: ${{ env.super_secret != '' }}
+              run: echo "Supersecret is set"
+            - if: ${{ env.super_secret == ''}}
+              run: echo "Supersecret is not set"
