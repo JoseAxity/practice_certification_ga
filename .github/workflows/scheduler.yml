@@ -1,0 +1,13 @@
+name: Scheduler by 1 minute
+on:
+    schedule:
+        - cron: '*/1 * * * *' # Every minute
+    workflow_dispatch:
+jobs:
+    scheduler:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Run a script
+              run: echo "This is a scheduled workflow that runs every minute."
