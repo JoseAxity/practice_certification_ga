@@ -1,0 +1,18 @@
+# Concepts
+name: Events trigger
+on:
+    push:
+        branches:
+            - main
+    # every 10 minutes'
+    schedule:
+        - cron: '0/10 * * * *'
+    workflow_dispatch: 
+jobs:
+    build_job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Run a script
+              run: echo "This is a scheduled workflow that runs every 10 minutes."

@@ -1,4 +1,3 @@
-name: Defaults for jobs
 on: [push, workflow_dispatch]
 
 jobs:
