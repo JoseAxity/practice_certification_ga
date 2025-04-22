@@ -4,6 +4,12 @@ jobs:
   failure_conditions:
     runs-on: ubuntu-latest
     steps:
+      - name: Check name repository
+        if: ${{ github.repository == 'JoseAxity/practice_certification_ga' }}
+        run: echo "The name of the repository is ${GITHUB_REPOSITORY}"
+      - name: Check name repository 2
+        if: github.repository == 'JoseAxity/practice_certification_ga'
+        run: echo "The name of the repository is ${GITHUB_REPOSITORY}"
       - name: Failing step
         id: demo
         run: exit 1
