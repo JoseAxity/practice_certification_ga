@@ -7,10 +7,8 @@ jobs:
       - name: Failing step
         id: demo
         run: exit 1
-      - name: Failure variable
+      - name: The demo step has failed
+        if: ${{ failure() && steps.demo.outcome == 'failure' }}
         run: |
           echo "The job has outcome ${{steps.demo.outcome}}"
           echo "The job has conclusion ${{steps.demo.conclusion}}"
-      - name: The demo step has failed
-        if: ${{ failure() && steps.demo.outcome == 'failure' }}
-        run: echo "The demo step has failed"
