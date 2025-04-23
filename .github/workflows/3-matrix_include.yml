@@ -1,5 +1,6 @@
 name: Matrix example
-on: [push, workflow_dispatch]
+on: #[push, 
+    workflow_dispatch:
 jobs:
     matrix-job:
         runs-on: ubuntu-latest

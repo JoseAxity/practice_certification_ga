@@ -1,9 +1,9 @@
 # Concepts
 name: Events trigger
 on:
-    push:
-        branches:
-            - main
+    #push:
+    #    branches:
+    #        - main
     # every 10 minutes'
     schedule:
         - cron: '0/10 * * * *'

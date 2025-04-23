@@ -19,9 +19,17 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GH_TOKEN }}
 
+            #lower case ${{ github.repository }}
+            - name: Lowercase repository name
+              run: |
+                # Convert the repository name to lowercase
+                REPOSITORY_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+                echo "$REPOSITORY_NAME"
+                echo "REPOSITORY_NAME=$REPOSITORY_NAME" >> $GITHUB_ENV
+
             - name: Build and push Docker image
               uses: docker/build-push-action@v6
               with:
                   context: docker_github/
                   push: true
-                  tags: ghcr.io/${{ github.repository }}/my-image:${{ github.sha }}
+                  tags: ghcr.io/${{ env.REPOSITORY_NAME }}/my-image:${{ github.sha }}

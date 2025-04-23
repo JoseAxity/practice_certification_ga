@@ -1,5 +1,7 @@
 name: Failure with contidions
-on: push
+on: #push
+  workflow_dispatch:
+    
 jobs:
   failure_conditions:
     runs-on: ubuntu-latest
