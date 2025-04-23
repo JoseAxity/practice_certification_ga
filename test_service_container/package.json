@@ -1,0 +1,14 @@
+{
+  "name": "test_service_container",
+  "version": "1.0.0",
+  "description": "A Node.js client for interacting with a PostgreSQL database.",
+  "main": "client.js",
+  "scripts": {
+    "start": "node client.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
