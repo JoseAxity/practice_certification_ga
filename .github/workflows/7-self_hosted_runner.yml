@@ -1,0 +1,11 @@
+name: Use sef-hosted runner
+on:
+    workflow_dispatch:
+jobs:
+    self-hosted-runner:
+        runs-on: [my_sel_hosted]
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Run a script
+              run: echo "This is a self-hosted runner job"
