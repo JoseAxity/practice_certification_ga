@@ -1,0 +1,10 @@
+FROM python:3.12-alpine
+
+# Copiamos el script al contenedor
+COPY app.py /app.py
+
+# Establecemos el punto de entrada
+ENTRYPOINT ["python", "/app.py"]
+
+# Argumentos por defecto
+CMD ["Hola", "mundo"]
