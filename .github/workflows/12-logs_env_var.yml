@@ -1,18 +1,99 @@
 name: Use Github API to get workflows id and logs
 on: workflow_dispatch
 jobs:
-    get_workflows_id:
+    fetch-workflow-ids:
         runs-on: ubuntu-latest
+        outputs:
+            workflow_ids: ${{ steps.get-workflows.outputs.workflow_ids }}        
         steps:
-        -   name: Get workflows id
+        -   name: Setup environment
             run: |
-                echo "Get workflows id"
-                curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/workflows | jq '.workflows[] | {id, name}'
-    get_workflow_logs:
+                echo "REPO=${GITHUB_REPOSITORY}" >> $GITHUB_ENV
+                echo "OWNER=${GITHUB_REPOSITORY_OWNER}" >> $GITHUB_ENV
+        
+        -   name: Get workflow IDs
+            id: get-workflows
+            env:
+                GH_TOKEN: ${{ secrets.GH_TOKEN }}
+            run: |
+                # Fetch all workflows in the repository
+                echo "Fetching workflows for ${OWNER}/${REPO}..."
+                WORKFLOWS=$(curl -s -H "Authorization: token ${GH_TOKEN}" \
+                    "https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows")
+                
+                # Extract workflow IDs and format as JSON array for output
+                WORKFLOW_IDS=$(echo "$WORKFLOWS" | jq -c '[.workflows[].id | tostring]')
+                echo "workflow_ids=${WORKFLOW_IDS}" >> $GITHUB_OUTPUT
+                
+                # Also save workflow names for reference
+                echo "$WORKFLOWS" | jq -r '.workflows[] | "ID: \(.id), Name: \(.name), Path: \(.path)"' > workflow_list.txt
+                
+                echo "Found workflows:"
+                cat workflow_list.txt
+        
+        -   name: Upload workflow list
+            uses: actions/upload-artifact@v3
+            with:
+                name: workflow-list
+                path: workflow_list.txt
+
+    fetch-workflow-runs:
+        needs: fetch-workflow-ids
         runs-on: ubuntu-latest
-        needs: get_workflows_id
+        strategy:
+            matrix:
+                workflow_id: ${{ fromJson(needs.fetch-workflow-ids.outputs.workflow_ids) }}
+            # Avoid GitHub API rate limits by limiting concurrent jobs
+            max-parallel: 2
+        
         steps:
-        -   name: Get workflow logs
+        -   name: Setup environment
             run: |
-                echo "Get workflow logs"
-                curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ needs.get_workflows_id.outputs.id }}/logs | jq '.logs[] | {name, url}'
+                echo "REPO=${GITHUB_REPOSITORY}" >> $GITHUB_ENV
+                echo "OWNER=${GITHUB_REPOSITORY_OWNER}" >> $GITHUB_ENV
+                echo "WORKFLOW_ID=${{ matrix.workflow_id }}" >> $GITHUB_ENV
+        
+        -   name: Fetch workflow details
+            env:
+                GH_TOKEN: ${{ secrets.GH_TOKEN }}
+            run: |
+                # Get workflow details
+                WORKFLOW=$(curl -s -H "Authorization: token ${GH_TOKEN}" \
+                    "https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW_ID}")
+                
+                echo "Processing workflow: $(echo "$WORKFLOW" | jq -r '.name') (ID: ${WORKFLOW_ID})"
+                mkdir -p workflow_runs
+        
+        -   name: Fetch workflow runs
+            env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            run: |
+                # Fetch the most recent runs for this workflow
+                RUNS=$(curl -s -H "Authorization: token ${GH_TOKEN}" \
+                    "https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW_ID}/runs?per_page=20")
+                
+                # Get workflow name for the report
+                WORKFLOW_NAME=$(curl -s -H "Authorization: token ${GH_TOKEN}" \
+                    "https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW_ID}" | jq -r '.name')
+                
+                # Save runs information to a report file
+                echo "Workflow: ${WORKFLOW_NAME} (ID: ${WORKFLOW_ID})" > "workflow_runs/${WORKFLOW_ID}.txt"
+                echo "--------------------------------" >> "workflow_runs/${WORKFLOW_ID}.txt"
+                
+                # Process each run
+                TOTAL_RUNS=$(echo "$RUNS" | jq '.total_count')
+                echo "Found ${TOTAL_RUNS} runs for this workflow" >> "workflow_runs/${WORKFLOW_ID}.txt"
+                echo "" >> "workflow_runs/${WORKFLOW_ID}.txt"
+                
+                echo "$RUNS" | jq -r '.workflow_runs[] | "Run ID: \(.id) | Status: \(.status) | Conclusion: \(.conclusion) | Created: \(.created_at) | URL: \(.html_url)"' >> "workflow_runs/${WORKFLOW_ID}.txt"
+                
+                # Display summary in logs
+                echo "Summary of runs for workflow ${WORKFLOW_NAME}:"
+                echo "$RUNS" | jq -r '.workflow_runs[] | "- Run \(.id): \(.status)/\(.conclusion) (\(.created_at))"' | head -n 5
+                echo "..."
+            
+        -   name: Upload workflow runs report
+            uses: actions/upload-artifact@v3
+            with:
+                name: workflow-runs-${{ matrix.workflow_id }}
+                path: workflow_runs/
