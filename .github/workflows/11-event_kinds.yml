@@ -1,0 +1,19 @@
+name: Event kinds
+on: [push, pull_request, workflow_dispatch]
+jobs:
+    check_event:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: If event is a push
+                if: github.event_name == 'push'            
+                run: |
+                    echo "Event kind is push: ${{ github.event_name }}"
+            -   name: If event is a pull request
+                if: github.event_name == 'pull_request'           
+                run: |
+                    echo "Event kind is pull_request: ${{ github.event_name }}"
+            -   name: If event is a workflow dispatch
+                if: github.event_name == 'workflow_dispatch'          
+                run: |
+                    echo "Event kind is workflow_dispatch: ${{ github.event_name }}"
+                    
