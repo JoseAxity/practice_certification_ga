@@ -7,7 +7,7 @@ jobs:
             -   name: If event is a push
                 if: github.event_name == 'push'            
                 run: |
-                    echo "Event kind is push: ${{ github.event_name }} $GIHUB_SHA $GITHUB_REPOSITORY $GITHUB_REF $GITHUB_REF_NAME $GITHUB_RUN_ID $GITHUB_RUN_NUMBER $GITHUB_RUN_URL $GITHUB_SHA $GITHUB_WORKFLOW $GITHUB_WORKSPACE"
+                    echo "Event kind is push: ${{ github.event_name }} $GITHUB_SHA $GITHUB_REPOSITORY $GITHUB_REF $GITHUB_REF_NAME $GITHUB_RUN_ID $GITHUB_RUN_NUMBER $GITHUB_RUN_URL $GITHUB_SHA $GITHUB_WORKFLOW $GITHUB_WORKSPACE"
             -   name: If event is a pull request
                 if: github.event_name == 'pull_request'           
                 run: |
@@ -16,4 +16,3 @@ jobs:
                 if: github.event_name == 'workflow_dispatch'          
                 run: |
                     echo "Event kind is workflow_dispatch: ${{ github.event_name }}"
-                    
