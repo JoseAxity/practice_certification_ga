@@ -1,5 +1,7 @@
 name: use-template
 on: [workflow_dispatch]
 jobs:
-    call-template:
+    call-template-artifact:
         uses: joseaxity/template_workflows/.github/workflows/template-artifact.yml@main
+    call-template-package:
+        uses: joseaxity/template_workflows/.github/workflows/template-package.yml@main
