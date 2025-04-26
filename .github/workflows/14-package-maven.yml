@@ -21,4 +21,6 @@ jobs:
 
       - name: Publicar paquete
         working-directory: ./package_maven
-        run: mvn deploy -DskipTests
+        run: |
+            echo "repo ${{ github.repository }}"
+            mvn deploy -DskipTests
