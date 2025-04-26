@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '11'
-          distribution: 'maven'
+          distribution: 'temurin'
           server-id: github              # Debe coincidir con <id> en pom.xml
           server-username: ${{ github.actor }}
           server-password: ${{ secrets.GITHUB_TOKEN }}
