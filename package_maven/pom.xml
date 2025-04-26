@@ -15,7 +15,7 @@
         <repository>
             <id>github</id>
             <name>GitHub ${project.artifactId} Package</name>
-            <url>https://maven.pkg.github.com/${{ github.repository }}</url>
+            <url>https://maven.pkg.github.com/joseaxity/practice_certification_ga</url>
         </repository>
     </distributionManagement>
 
