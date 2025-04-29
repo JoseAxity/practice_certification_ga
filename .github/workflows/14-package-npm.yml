@@ -14,7 +14,7 @@ jobs:
           scope: '@joseaxity'
       - run: |
           cd npm_package
-          npm ci
+          npm install
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
