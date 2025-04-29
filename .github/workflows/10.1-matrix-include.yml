@@ -1,0 +1,21 @@
+name: Test matrix 2
+on: workflow_dispatch
+jobs:
+  matrix-job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fruit: [apple, pear]
+        animal: [cat, dog]
+        include:
+          - color: green
+          - color: pink
+            animal: cat
+          - fruit: apple
+            shape: circle
+          - fruit: banana
+          - fruit: banana
+            animal: cat
+
+    steps:
+      - run: echo "Hello ${{ matrix.fruit }} ${{ matrix.animal }} ${{ matrix.color }} ${{ matrix.shape }}"
