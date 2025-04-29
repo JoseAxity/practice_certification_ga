@@ -1,15 +1,14 @@
 name: Test matrix
 on: workflow_dispatch
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  matrix-job:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node: [14, 16]
+        pet: [cat, dog]
+        color: [pink, brown]
+        include:
+          - color: white
+            pet: dog
     steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Output node version
-        run: node --version
+      - run: echo "Hello ${{ matrix.color }} ${{ matrix.pet }}"
