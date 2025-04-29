@@ -1,0 +1,24 @@
+{
+  "name": "@joseaxity/hello-world-npm",
+  "version": "1.0.0",
+  "description": "A simple hello world NPM package",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "hello",
+    "world",
+    "npm",
+    "example"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joseaxity/practice_certification_ga.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

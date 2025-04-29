@@ -1,0 +1,20 @@
+name: Publish to GitHub Packages NPM
+
+on: workflow_dispatch
+
+jobs:
+ build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@joseaxity'
+      - run: |
+          cd npm_package
+          npm ci
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
