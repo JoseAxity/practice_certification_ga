@@ -2,6 +2,10 @@ name: Types of inputs in workflow_dispatch
 on:
   workflow_dispatch:
     inputs:
+      environment_input:
+        description: 'An environment input'
+        required: true
+        default: 'production'
       string_input:
         description: 'A string input'
         required: true
@@ -19,10 +23,6 @@ on:
           - option1
           - option2
           - option3
-      environment_input:
-        description: 'An environment input'
-        required: true
-        default: 'production'
       number_input:
         description: 'A number input'
         required: true
@@ -30,6 +30,7 @@ on:
 jobs:
     example_job:
         runs-on: ubuntu-latest
+        environment: ${{ github.event.inputs.environment_input }}
         steps:
             - name: Print inputs
               run: |
