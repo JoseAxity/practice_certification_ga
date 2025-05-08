@@ -17,4 +17,4 @@ jobs:
     needs: example_job
     steps:
       - name: Use Output
-        run: echo 'The output from the previous job is: ${{ needs.example_job.outputs.example_output }}'
+        run: echo "Deploying version ${{ needs.example_job.outputs.example_output }}"
