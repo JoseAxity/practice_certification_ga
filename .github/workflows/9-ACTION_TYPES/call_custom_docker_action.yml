@@ -1,4 +1,4 @@
-name: Call Custom Docker Action
+name: Use Custom Docker Action
 on: [workflow_dispatch]
 
 jobs:

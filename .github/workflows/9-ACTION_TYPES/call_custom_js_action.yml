@@ -1,4 +1,4 @@
-name: Call Custom JS Action
+name: Use Custom JS Action
 on: [workflow_dispatch]
 
 jobs:
