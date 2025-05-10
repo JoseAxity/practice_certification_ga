@@ -12,4 +12,4 @@ jobs:
           id: step_two
           run: |
             echo "The action state is $action_state"
-            echo "${{ steps.step_one.outputs.action_state }}"
+            echo "With out put ${{ steps.step_one.outputs.action_state }}"
