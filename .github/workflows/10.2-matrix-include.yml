@@ -12,6 +12,7 @@ jobs:
             animal: cowl
           - color: pink
             animal: magpie
+            ismammal: true
 
     steps:
-      - run: echo "Hello ${{ matrix.color }} ${{ matrix.animal }}"
+      - run: echo "Hello ${{ matrix.color }} ${{ matrix.animal }} ${{ matrix.ismammal }}"
