@@ -17,6 +17,5 @@ jobs:
               run: echo "Supersecret is set"
             - if: ${{ env.super_secret == ''}}
               run: echo "Supersecret is not set"
-            - run: echo "This is way 1 a default $env.repo value"
-            - run: echo "This is way 2 default ${env.repo} value"
+            - run: echo "This is way 1 a default $repo value"
             - run: echo "This is way 3 default ${{ env.repo }} value"
