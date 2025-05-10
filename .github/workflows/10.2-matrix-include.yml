@@ -1,0 +1,17 @@
+name: Matrix strategy override
+on: workflow_dispatch
+jobs:
+  matrix-job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        color: [green, pink]
+        animal: [owl, magpie]
+        include:
+          - color: blue
+            animal: cowl
+          - color: pink
+            animal: magpie
+
+    steps:
+      - run: echo "Hello ${{ matrix.color }} ${{ matrix.animal }}"
