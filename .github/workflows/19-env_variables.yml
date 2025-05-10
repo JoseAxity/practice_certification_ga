@@ -11,5 +11,5 @@ jobs:
         - name: Use the value
           id: step_two
           run: |
-            echo "The action state is $action_state"
-            echo "With out put ${{ steps.step_one.outputs.action_state }}"
+            echo "Use env var way one ${{ env.action_state }}"
+            echo "Use env var way two $action_state"
