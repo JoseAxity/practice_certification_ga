@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             super_secret: ${{ secrets.Supersecret }}
-            repo: GITHUB_REPOSITORY
+            repo: $GITHUB_REPOSITORY
         defaults:
             run:
                 shell: bash
