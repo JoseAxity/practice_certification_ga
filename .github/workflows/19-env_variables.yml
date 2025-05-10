@@ -14,3 +14,12 @@ jobs:
             echo "Use env var way one ${{ env.action_state }}"
             echo "Use env var way two $action_state"
             echo "Event ${{ github.event }}"
+            echo github.event
+        - name: Validate event
+          if: ${{ github.event_name == 'workflow_dispatch' }}
+          run: |
+            echo "This is a workflow_dispatch event" 
+        - name: Validate event 2
+          if: github.event_name == 'workflow_dispatch'
+          run: |
+            echo "This is a workflow_dispatch event"  
