@@ -1,0 +1,15 @@
+name: How to use env variables in a workflow
+on: workflow_dispatch
+jobs:
+    check_env_var:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Set the value
+          id: step_one
+          run: |
+            echo "action_state=yellow" >> "$GITHUB_ENV"
+        - name: Use the value
+          id: step_two
+          run: |
+            echo "The action state is ${{ action_state }}"
+            echo "The action state is $action_state"
