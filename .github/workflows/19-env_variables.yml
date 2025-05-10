@@ -13,3 +13,4 @@ jobs:
           run: |
             echo "Use env var way one ${{ env.action_state }}"
             echo "Use env var way two $action_state"
+            echo "Event $github.event"
