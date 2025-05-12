@@ -1,0 +1,15 @@
+name: How to prevent job failure
+on: workflow_dispatch
+jobs:
+    check_job_failure:
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Failure step
+            id: step_one
+            run: |
+                exit 1
+            continue-on-error: true
+        -   name: Next step
+            id: step_two
+            run: |
+                echo "The next step will run even if the previous step fails"
