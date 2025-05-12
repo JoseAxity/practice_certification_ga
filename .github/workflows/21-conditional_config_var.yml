@@ -1,0 +1,18 @@
+name: Validate if a conditional configuration variable is set
+on: workflow_dispatch
+jobs:
+    check_config_var:
+        if: ${{ vars.MY_VAR == 'MY_VALUE' }}
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Check config var
+            id: check_config_var
+            run: |
+                echo "MY_VAR is set to MY_VALUE"
+    job_dos:
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Set the value
+            id: step_one
+            run: |
+                echo "Esto es el job dos
