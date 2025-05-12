@@ -7,6 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             super_secret: ${{ secrets.Supersecret }}
+            repo: $GITHUB_REPOSITORY
         defaults:
             run:
                 shell: bash
@@ -16,3 +17,5 @@ jobs:
               run: echo "Supersecret is set"
             - if: ${{ env.super_secret == ''}}
               run: echo "Supersecret is not set"
+            - run: echo "This is way 1 a default $repo value"
+            - run: echo "This is way 3 default ${{ env.repo }} value"
