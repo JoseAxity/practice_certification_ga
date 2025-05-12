@@ -8,6 +8,7 @@ jobs:
             id: step_one
             run: |
                 exit 1
+            continue-on-error: true
         -   name: Next step
             id: step_two
             run: |
