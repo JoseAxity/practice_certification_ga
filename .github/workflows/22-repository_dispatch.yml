@@ -20,4 +20,4 @@ jobs:
                 run: |
                     echo $MESSAGE
                 env:
-                    MESSAGE: ${{ github.event.client_payload.message }}
+                    MESSAGE: ${{ github.event.client_payload }}
