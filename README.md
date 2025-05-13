@@ -11,3 +11,4 @@ release events
 workflow dispatch events (manually)
 scheduled events
 webhook events (extenal service)
+check_run
