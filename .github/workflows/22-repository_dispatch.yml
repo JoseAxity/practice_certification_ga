@@ -16,8 +16,5 @@ jobs:
                     echo "Sender: ${{ github.event.sender.login }}"
                     echo "Received at: $(date)"
             
-            -   name: Show event payload
-                run: |
-                    echo $MESSAGE
-                env:
-                    MESSAGE: ${{ github.event.client_payload }}
+            -   name: Mostrar client_payload completo
+                run: echo '${{ toJson(github.event.client_payload) }}'
