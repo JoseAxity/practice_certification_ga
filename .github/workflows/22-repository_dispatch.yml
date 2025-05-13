@@ -1,0 +1,17 @@
+name: Repository Dispatch Example
+on:
+    repository_dispatch:
+        types: [build-event, deploy-event, test-event, jitm-event]
+jobs:
+    repository_dispatch_job:
+        runs-on: ubuntu-latest
+        steps:
+            # Paso 1: Checkout del código
+            -   uses: actions/checkout@v4
+
+            # Paso 2: Mostrar información del evento recibido
+            -   name: Show dispatch event details
+                run: |
+                    echo "Event type: ${{ github.event.action }}"
+                    echo "Sender: ${{ github.event.sender.login }}"
+                    echo "Received at: $(date)"
