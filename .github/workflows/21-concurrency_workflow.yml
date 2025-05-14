@@ -1,0 +1,13 @@
+name: How to use concurrency in workflows
+on: push
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+jobs:
+    build_job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Run a script
+              run: echo "This is a workflow that uses concurrency."
