@@ -1,9 +1,9 @@
-name: Test with PostgreSQL
+name: Test PostgreSQL Connection with Bash
 
-on: workflow_dispatch
+on: [push, pull_request]
 
 jobs:
-  test:
+  check-postgres:
     runs-on: ubuntu-latest
 
     services:
@@ -22,18 +22,21 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Wait for DB to be ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          for i in {1..10}; do
+            pg_isready -h localhost -p 5432 -U myuser && break
+            echo "Still waiting..."
+            sleep 2
+          done
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
+      - name: Check connection with Bash
         env:
-          DATABASE_URL: postgres://myuser:mypassword@localhost:5432/mydb
-        run: npm test
+          PGPASSWORD: mypassword
+        run: |
+          echo "Checking connection to PostgreSQL..."
+          psql -h localhost -U myuser -d mydb -c "SELECT '✅ Connected to PostgreSQL!' AS status;"
