@@ -5,7 +5,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout
+              uses: actions/checkout@v4
+              #uses: actions/checkout without ref cause this error>
+              #the `uses' attribute must be a path, a Docker image, or owner/repo@ref
             - name: Check syntax
               run: |
                 ls -la
