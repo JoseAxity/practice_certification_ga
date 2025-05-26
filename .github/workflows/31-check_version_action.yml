@@ -1,0 +1,11 @@
+name: Check sintaxis in checkout action
+on: workflow_dispatch
+jobs:
+    check-sintaxis:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout
+            - name: Check syntax
+              run: |
+                ls -la
