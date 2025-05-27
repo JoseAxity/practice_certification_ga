@@ -1,0 +1,21 @@
+name: Check fail job
+on: workflow_dispatch
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail step
+        run: exit 1
+      - name: This step will not run
+        run: echo "This step will not run because the previous step failed"
+  job-2:
+    runs-on: ubuntu-latest
+    needs: job-1
+    steps:
+      - name: This step will not run
+        run: echo "This step will not run because job-1 failed"
+  job-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: This step will run
+        run: echo "This step dont depend on job-1 and will run regardless of its failure"
