@@ -1,0 +1,34 @@
+name: Structure Workflow
+on: 
+    push:
+        branches:
+            - main
+env:
+    GLOBAL_VAR: "Global workflow variable"
+
+jobs:
+    job1:
+        
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+        runs-on: matrix.os
+        env:
+            JOB_VAR: "Job 1 variable"
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Run job 1
+              run: echo "Running job 1"
+              env:
+                STEP_VAR: "Local job 1 variable"
+    job2:
+        runs-on: ubuntu-latest
+        needs: job1
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Run job 2
+              run: echo "Running job 2 after job 1"
